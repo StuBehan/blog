@@ -1,0 +1,36 @@
+title: Stuart's Blog
+# Add a personal contact email here if you want one shown in the footer.
+email:
+description: >-
+  Notes, write-ups, and things worth remembering.
+author: Stuart Behan
+
+# The site is served at the root of a custom domain (behan.codes), so the
+# baseurl is empty. The GitHub Actions build detects the custom domain and
+# sets base_path to "" automatically.
+url: "https://behan.codes"
+baseurl: ""
+
+# Optional: link these in the theme footer.
+github_username: StuBehan
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# minima options
+minima:
+  date_format: "%b %-d, %Y"
+  social_links:
+    github: StuBehan
+
+# Don't copy these into the built site.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - .github
