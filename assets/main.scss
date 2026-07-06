@@ -1,0 +1,274 @@
+---
+# A custom dark, purple-accent skin for minima 2.5.
+# minima 2.5 has no skin system, so we override its !default SCSS variables
+# BEFORE importing it, then layer polish + a dark code theme AFTER.
+---
+
+// Web fonts — Inter for UI, JetBrains Mono for code.
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+// ===========================================================================
+//  Palette — dark with a purple accent
+//  (these names are minima's; overriding them recolors borders/code/title too)
+// ===========================================================================
+$base-font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$base-font-size:   17px;
+$base-line-height: 1.7;
+$content-width:    1095px;   // wide reading column, applied to every page (~+44% vs minima's default)
+
+$text-color:       #d4d4d4;   // body text
+$background-color: #1e1e1e;   // app background (dark charcoal)
+$brand-color:      #a78bfa;   // accent purple → links
+
+$grey-color:       #8a8a8a;   // muted meta text
+$grey-color-light: #2d2d2d;   // borders + code-block surfaces
+$grey-color-dark:  #ececec;   // site title + bright UI text
+
+// Local extras (not part of minima)
+$surface-color:    #262626;   // cards / inline code / code blocks
+$accent-hover:     #c4b5fd;   // lighter purple for hover
+
+// Pull in minima with our overrides applied.
+@import "minima";
+
+// ===========================================================================
+//  Polish layer
+// ===========================================================================
+html { scroll-behavior: smooth; }
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: rgba(167, 139, 250, 0.30); }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #f0f0f0;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: $brand-color;
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:visited { color: $brand-color; }
+  &:hover {
+    color: $accent-hover;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+// ===========================================================================
+//  Left sidebar layout (replaces minima's top header)
+// ===========================================================================
+$sidebar-width: 264px;
+
+.layout { min-height: 100vh; }
+
+.sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: $sidebar-width;
+  box-sizing: border-box;
+  padding: 26px 18px;
+  background: #181818;                 // slightly darker than the main background
+  border-right: 1px solid $grey-color-light;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+// Flex column so a short page still pushes the footer to the bottom.
+.content-area {
+  margin-left: $sidebar-width;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.content-area .page-content { flex: 1 0 auto; }
+
+// Trim minima's default 30px side gutters so text uses more of the width
+// (helps on every window size, not just wide screens).
+.wrapper {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.sidebar-title {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: $grey-color-dark;
+  text-decoration: none;
+  &:hover { color: #fff; text-decoration: none; }
+}
+
+.sidebar-tagline {
+  color: $grey-color;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  margin: 8px 0 20px;
+}
+
+.sidebar-section-title {
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  color: $grey-color;
+  margin: 22px 0 6px;
+  padding-left: 10px;
+}
+
+.sidebar-nav a,
+.sidebar-posts a {
+  display: block;
+  color: $text-color;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  transition: background 0.12s ease, color 0.12s ease;
+
+  &:hover { background: rgba(167, 139, 250, 0.12); color: $accent-hover; text-decoration: none; }
+  &.active { background: rgba(167, 139, 250, 0.18); color: #fff; }
+}
+
+// The post list reads like a file tree — a touch dimmer.
+.sidebar-posts a {
+  color: $grey-color;
+  font-size: 0.86rem;
+  &:hover { color: $accent-hover; }
+}
+
+.sidebar-spacer { flex: 1 1 auto; }
+
+.sidebar-footer {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid $grey-color-light;
+  font-size: 0.82rem;
+
+  a { color: $grey-color; margin-right: 14px; &:hover { color: $accent-hover; } }
+}
+
+// Responsive — collapse the sidebar into a top bar on narrow screens.
+@media screen and (max-width: 800px) {
+  .sidebar {
+    position: static;
+    width: auto;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid $grey-color-light;
+  }
+  .content-area { margin-left: 0; }
+  .sidebar-spacer { display: none; }
+  .sidebar-posts { display: none; }   // keep the mobile bar compact
+}
+
+// --- Code ---
+code {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+}
+
+// inline `code`
+:not(pre) > code {
+  background-color: $surface-color;
+  border: 1px solid $grey-color-light;
+  border-radius: 6px;
+  padding: 0.15em 0.4em;
+  color: #e6c07b;
+}
+
+pre {
+  background-color: $surface-color;
+  border: 1px solid $grey-color-light;
+  border-radius: 10px;
+  padding: 14px 16px;
+
+  > code { background: none; border: 0; padding: 0; color: $text-color; }
+}
+
+// --- Blockquotes ---
+blockquote {
+  color: #b9b9b9;
+  border-left: 4px solid $brand-color;
+  background: rgba(167, 139, 250, 0.06);
+  padding: 10px 18px;
+  border-radius: 0 6px 6px 0;
+  font-style: normal;
+
+  > :last-child { margin-bottom: 0; }
+}
+
+// --- Home post list ---
+.post-list-heading { color: #f0f0f0; }
+.post-list > li {
+  padding-bottom: $spacing-unit * 0.5;
+  margin-bottom: $spacing-unit * 0.5;
+  border-bottom: 1px solid $grey-color-light;
+
+  h3 { margin-bottom: 4px; }
+}
+.post-link { font-weight: 600; }
+.post-meta { color: $grey-color; font-size: 0.85em; }
+.post-title { letter-spacing: -0.02em; }
+
+// --- Misc ---
+hr {
+  border: 0;
+  border-top: 1px solid $grey-color-light;
+  margin: $spacing-unit 0;
+}
+
+table {
+  border: 1px solid $grey-color-light;
+  th, td { border: 1px solid $grey-color-light; }
+  th { background-color: $surface-color; color: #f0f0f0; }
+  tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+}
+
+// Small, muted footer pinned to the bottom of the column.
+.site-footer {
+  flex-shrink: 0;
+  border-top: 1px solid $grey-color-light;
+  padding: 14px 0;
+  font-size: 0.78rem;
+  color: $grey-color;
+
+  .wrapper { text-align: center; }
+  a { color: $grey-color; &:hover { color: $accent-hover; } }
+}
+
+// ===========================================================================
+//  Dark syntax highlighting (overrides minima's light rouge palette)
+//  One Dark-ish — pairs well with the dark background.
+// ===========================================================================
+// Match minima's `.highlighter-rouge .highlight` specificity so our dark
+// background actually wins on fenced code blocks.
+.highlight,
+.highlighter-rouge .highlight {
+  background: $surface-color;
+
+  .c, .c1, .cm, .cd, .cs { color: #6a737d; font-style: italic; } // comments
+  .k, .kd, .kn, .kp, .kr, .kt { color: #c678dd; }                // keywords
+  .o, .ow { color: #56b6c2; }                                    // operators
+  .p { color: $text-color; }                                     // punctuation
+  .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx, .sr { color: #98c379; } // strings
+  .m, .mi, .mf, .mh, .il, .mo { color: #d19a66; }                // numbers
+  .nb, .bp { color: #56b6c2; }                                   // builtins
+  .nf, .fm { color: #61afef; }                                   // functions
+  .nc, .nn { color: #e5c07b; }                                   // classes / namespaces
+  .na { color: #d19a66; }                                        // attributes
+  .nt { color: #e06c75; }                                        // html tags
+  .nv, .vc, .vg, .vi { color: #e06c75; }                         // variables
+  .gi { color: #98c379; background-color: rgba(152, 195, 121, 0.10); } // diff +
+  .gd { color: #e06c75; background-color: rgba(224, 108, 117, 0.10); } // diff -
+  .err { color: #ff6b6b; background-color: transparent; }              // error
+}
