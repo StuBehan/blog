@@ -7,7 +7,7 @@ categories: ai-tools
 
 When I started using AI to help with code, it was copy pasting into ChatGPT's chat interface and going round in circles until I had reduced the problem to the more intricate parts and the scope was small. I spent a lot of time drawing diagrams on a pixel tablet, or notebooks, describing features and scribbling architecture. 
 
-Now, I use Claude Code (CC), agy and codex, predominately Claude though. I was skeptical from the start and didn't jump on the CC bandwagon as soon as I could, I still quite liked my copy paste flow with ChatGPT - and I think that was because I still felt in control - once I started using CC completely... well it became my main interface with the code. 
+Now, a bunch of AI tooling has redefined my processes I use Claude Code (CC), AGY or Codex, predominately Claude though. I was skeptical from the start and didn't jump on the CC bandwagon as soon as I could, I still quite liked my copy paste flow with ChatGPT - and I think that was because I still felt in control - once I started using CC completely... well it became my main interface with the code. 
 
 Over the past 6 months I've gone from deriding those who used `--dangerously-skip-permissions` to always running in caffeinated `auto mode`, running between 5 and 20 sessions across all three agents. This kind of just evolved naturally as I changed how I worked as I grew more confident in the model's ability to perform what I needed from the instructions that I would give. 
 
@@ -23,12 +23,12 @@ Despite StackOne not running a monorepo, that's how I treat the codebase, I have
 
 A few other things that are now part of the furniture:
 
-* **Moved from VS Code to Zed** Lighter weight experience - I still made it look and feel like VS Code though.
-* **iTerm2 for terminal** I don't run Claude Code in Zed, mainly due to one of its flaws - but more on that later 
-* **More than one session at a time** Different branches, different tickets, different windows. I start the week getting a bunch of agents to pull all the tickets I have assigned and start planning
-* **Claude doesn't commit** I don't let em (well ok sometimes) - mostly because this is the part where I actually review the code manual style
-* **MCPs for work systems** Linear, Datadog, Fireflies - helps Claude plan, check that meeting we had where we discussed a key architectural constraint, check datadog logs after deployment
-* **`deep-dive`**, an internal multi-agent audit plugin, which I've pointed at my own code more than once (more on that below).
+* **Moved from VS Code to Zed:** Lighter weight experience - I still made it look and feel like VS Code though.
+* **iTerm2 for terminal:** I don't run Claude Code in Zed, mainly due to one of its flaws - but more on that later 
+* **More than one session at a time:** Different branches, different tickets, different windows. I start the week getting a bunch of agents to pull all the tickets I have assigned and start planning
+* **Claude doesn't commit:** I don't let em (well ok sometimes) - mostly because this is the part where I actually review the code manual style
+* **MCPs for work systems:** Linear, Datadog, Fireflies - helps Claude plan, check that meeting we had where we discussed a key architectural constraint, check datadog logs after deployment
+* **`deep-dive`:**, an internal multi-agent audit plugin, which I've pointed at my own code more than once (more on that below).
 * Plus `spark`, `introspect`, `plugin-dev` and a Swift LSP, and an MCP server wired up so the agent can actually call our own APIs rather than guess at them.
 
 I've enjoyed how this setup has evolved. But it has one obvious hole.
@@ -51,11 +51,11 @@ The nice part is that I'm not testing this on some contrived setup - it's hooked
 
 And the bits I've ended up building map almost one-to-one onto my own annoyances:
 
-* **A keyboard-driven panel**, because I don't want to reach for the mouse to approve something. Summon it with a hotkey, move around with the arrow keys, approve or focus with Enter.
-* **Live session tracking** - it reads Claude Code's per-process sidecar to show which of my sessions are busy versus idle, and how full each one's context window is, without waiting for a hook to fire.
-* **Token accounting per ticket.** A tab that rolls every session up by ticket (guessed from the branch name), showing tokens spent, files changed, and where the work actually got to: *needs-review → committed → pushed → merged*, with real GitHub PR and CI status if you link it.
-* **Context-fill alerts** - a nudge like *"context filling up on `classifier-evolution-2` at 175K, consider `/compact`"* so a session doesn't silently run itself into a wall.
-* **Quota tracking** - the same numbers `claude /usage` prints, but always on screen, with a warning before I sink the weekly cap.
+* **A keyboard-driven panel:**, because I don't want to reach for the mouse to approve something. Summon it with a hotkey, move around with the arrow keys, approve or focus with Enter.
+* **Live session tracking:** - it reads Claude Code's per-process sidecar to show which of my sessions are busy versus idle, and how full each one's context window is, without waiting for a hook to fire.
+* **Token accounting per ticket:** A tab that rolls every session up by ticket (guessed from the branch name), showing tokens spent, files changed, and where the work actually got to: *needs-review → committed → pushed → merged*, with real GitHub PR and CI status if you link it.
+* **Context-fill alerts:** - a nudge like *"context filling up on `classifier-evolution-2` at 175K, consider `/compact`"* so a session doesn't silently run itself into a wall.
+* **Quota tracking:** - the same numbers `claude /usage` prints, but always on screen, with a warning before I sink the weekly cap.
 
 There's also a security and correctness hardening pass in there that I'm quietly proud of, mostly because of *how* it happened: I pointed `deep-dive` - one of the plugins I mentioned earlier - at our own codebase, and then spent a good while working through what it turned up. Things like parsing our phrase files as plain data instead of `eval`-ing them, and hardening the notify script against injection. I made `deep-dive` to help the less-technical members of the team get quick feedback on their projects, focusing on security and completeness of functionality but also to be a tool suitable for auditing production code.
 

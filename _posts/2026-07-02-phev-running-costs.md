@@ -57,6 +57,8 @@ Then the alternative: what those same miles would have cost me burning diesel in
 | **Diesel Engine** | 100.37 Litres | £163.60 |
 | **Net Margin** |  | **-£29.08 (Loss)** |
 
+<!-- say: So here's the verdict: charging from the grid cost me £192.68, against £163.60 for the diesel engine - a net loss of £29.08. -->
+
 ### Observations
 
 I used pre-heating over the winter, so my electricity usage was probably a bit higher than the raw numbers suggest, and the recent heatwaves have meant a lot of pre-cooling before journeys too.
@@ -69,18 +71,18 @@ So on standard 25p daytime electricity, charging the car actually costs me more 
 
 To turn that loss into a saving, I need to stop charging at the standard daytime rate.
 
-**1. Charging overnight on a cheap tariff**
+**1. Charging overnight on a cheap tariff:**
 If I move all my charging to an overnight off-peak tariff (around 7p per kWh), that same 770.72 kWh only costs £53.95. That flips the whole thing around, giving me a saving of **£109.65** against diesel at the 7-month average price.
 
-**2. Charging from my own solar**
+**2. Charging from my own solar:**
 Charging from a home solar array is a bit different - it's really about opportunity cost. If I put spare generation into the car instead of exporting it to the grid at the standard 15p Smart Export Guarantee (SEG) rate, that 770.72 kWh effectively "costs" me £115.61 in lost export payments. Even then, I'm still **£47.99** better off than diesel, and I've sidestepped peak pricing entirely.
 
 ---
 
 ## Couple of other thoughts
 
-**1. Maintenance and wear**
+**1. Maintenance and wear:**
 If I ran everything on the diesel engine, my main trips - a 4km round trip to the nursery twice a day - would be about the worst kind of driving for it: short hops from cold, never really getting up to temperature. That's exactly where the electric motor shines. The trips are short, so the 21-mile range covers them easily, and I'm not cold-starting a diesel over and over.
 
-**2. The Rule of Cool**
-It's just fun to drive under electric power. Pulling away in the morning without having to start the diesel from cold on the driveway is more pleasant, especially when we've got the windows open. And coming back home down the cul-de-sac without the noise of the diesel engine in the afternoon or evening feels a bit more neighbourly.
+**2. The Rule of Cool:**
+It's just fun to drive under electric power. Pulling away in the morning without having to start the diesel from cold on the driveway is more pleasant, especially when we've got the windows of the house open. And coming back home down the cul-de-sac without the noise of the diesel engine in the afternoon or evening feels a bit more neighbourly.
