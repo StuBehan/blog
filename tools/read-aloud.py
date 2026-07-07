@@ -19,6 +19,9 @@ PRONUNCIATIONS = {
     "SessionStart": "session start",
     "PermissionRequest": "permission request",
     "StackOne": "stack one",
+    "OAuth": "oh auth",
+    "Behan": "Bayan",  # say "BAY-an", not "B-hen"
+    "Redis": "Reddis",  # say "RED-iss", not "ree-dees"
 }
 
 
@@ -160,8 +163,11 @@ def main():
     if len(sys.argv) != 2:
         sys.exit("usage: read-aloud.py path/to/post.md")
     title, body = split_front_matter(load(sys.argv[1]))
-    paragraphs = ([title] if title else []) + clean(body)
-    print("\n".join(ensure_stop(p) for p in paragraphs))
+    # The title is emitted on line 1 so generate-audio.sh can splice a real
+    # silent beat after it (line breaks alone produce no gap in StackVox).
+    lines = [ensure_stop(title)] if title else []
+    lines += [ensure_stop(p) for p in clean(body)]
+    print("\n".join(lines))
 
 
 if __name__ == "__main__":
