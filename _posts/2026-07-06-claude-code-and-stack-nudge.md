@@ -7,7 +7,7 @@ categories: ai-tools
 
 When I started using AI to help with code, it was copy pasting into ChatGPT's chat interface and going round in circles until I had reduced the problem to the more intricate parts and the scope was small. I spent a lot of time drawing diagrams on a pixel tablet, or notebooks, describing features and scribbling architecture. 
 
-Now, a bunch of AI tooling has redefined my processes I use Claude Code (CC), AGY or Codex, predominately Claude though. I was skeptical from the start and didn't jump on the CC bandwagon as soon as I could, I still quite liked my copy paste flow with ChatGPT - and I think that was because I still felt in control - once I started using CC completely... well it became my main interface with the code. 
+Now, a bunch of AI tooling has redefined my processes. I use Claude Code (CC), AGY or Codex, predominately Claude though. I was skeptical from the start and didn't jump on the CC bandwagon as soon as I could, I still quite liked my copy paste flow with ChatGPT - and I think that was because I still felt in control - once I started using CC completely... well it became my main interface with the code. 
 
 Over the past 6 months I've gone from deriding those who used `--dangerously-skip-permissions` to always running in caffeinated `auto mode`, running between 5 and 20 sessions across all three agents. This kind of just evolved naturally as I changed how I worked as I grew more confident in the model's ability to perform what I needed from the instructions that I would give. 
 
@@ -15,7 +15,7 @@ This led to a new problem, how do I keep track of all these different sessions? 
 
 ## How I actually run it
 
-In my setup I default to Opus with the 1M-context window, always-thinking turned on, and the effort level pinned to `xhigh`. More often than not that's gonna be needed. The StackOne architecture is across about 6 core repos with many others in the wings. 
+In my setup I default to Opus with the 1M-context window, `always-thinking` turned on, and the effort level pinned to `xhigh`. More often than not, that's gonna be needed. The StackOne architecture is across about 6 core repos with many others in the wings. 
 
 At the beginning I was reading and reacting to every single event, can I look at this file? can I do this grep? Now, I use a `SessionStart` hook that `caffeinates` the session, so if Claude has a job on, my Mac won't sleep. Now I set an agent on a task and let it do its thing.
 
@@ -39,7 +39,7 @@ The exact moment you step away is the moment ya boys hit a blocker.
 
 You kick off three sessions, go make a coffee, and come back to find one of them hit a permission prompt ninety seconds after you left and has been sitting there ever since. Or worse - it *finished*, cleanly, and has just been idle for twenty minutes while you assumed it was still working. The whole "set it going and leave" workflow quietly falls apart if leaving means you don't know when to come back.
 
-And really it's not often I've left the seat, it's just I'm working on something else, in a meeting, planning with another agent.
+And really it's not often I've left the seat, it's just I'm working on something else, maybe I'm in a meeting, or planning with another agent.
 
 ## The thing that calls me back
 

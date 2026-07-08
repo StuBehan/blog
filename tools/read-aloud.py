@@ -21,7 +21,8 @@ PRONUNCIATIONS = {
     "StackOne": "stack one",
     "OAuth": "oh auth",
     "Behan": "Bayan",  # say "BAY-an", not "B-hen"
-    "Redis": "Reddis",  # say "RED-iss", not "ree-dees"
+    "Redis": "Reddiss",  # say "RED-iss", not "ree-dees"
+    "dir": "directory",
 }
 
 
