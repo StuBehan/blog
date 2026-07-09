@@ -14,14 +14,22 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VOICE="${STACKVOX_VOICE:-af_aoede}"
 SPEED="${STACKVOX_SPEED:-0.95}"
 
-# Resolve the stackvox binary: PATH first, then the Stack Nudge app's venvs.
-STACKVOX="$(command -v stackvox || true)"
+# Resolve the stackvox binary. STACKVOX is the first runnable one (used for
+# synthesis, which is identical across versions). NORM is the first that speaks
+# the 0.7.0 `normalize` subcommand — the Markdown->speech normalizer. Candidates:
+# PATH, the local StackVox clone's venv, then the Stack Nudge app's venvs.
+# Override either with STACKVOX_BIN / STACKVOX_NORMALIZE.
+STACKVOX="" ; NORM="${STACKVOX_NORMALIZE:-}"
 for cand in \
+  "${STACKVOX_BIN:-$(command -v stackvox || true)}" \
+  "$HOME/stackone/stackvox/.venv/bin/stackvox" \
   "$HOME/.stack-nudge/venv/bin/stackvox" \
   "$HOME/Applications/StackNudge.app/Contents/Resources/venv/bin/stackvox"; do
-  [ -n "$STACKVOX" ] && break
-  [ -x "$cand" ] && STACKVOX="$cand"
+  [ -n "$cand" ] && [ -x "$cand" ] || continue
+  [ -n "$STACKVOX" ] || STACKVOX="$cand"
+  if [ -z "$NORM" ] && "$cand" --help 2>&1 | grep -qw normalize; then NORM="$cand"; fi
 done
+[ -n "$NORM" ] && STACKVOX="$NORM"   # prefer the capable binary for synth too
 [ -n "$STACKVOX" ] || { echo "error: stackvox not found (try: pipx install stackvox)" >&2; exit 1; }
 command -v ffmpeg >/dev/null || { echo "error: ffmpeg not found (try: brew install ffmpeg)" >&2; exit 1; }
 
@@ -34,7 +42,20 @@ OUTDIR="$REPO/assets/audio"
 mkdir -p "$OUTDIR"
 
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
-python3 "$REPO/tools/read-aloud.py" "$POST" > "$TMP/clean.txt"
+
+# Turn the post into speakable text. Preferred path: read-aloud.py preps the
+# Markdown (front matter -> title on line 1, say: directives -> visible prose),
+# then `stackvox normalize` does the Markdown->speech transform with the blog's
+# pronunciation dict. If no 0.7.0-capable stackvox is around, fall back to
+# read-aloud.py's self-contained --legacy cleaner so nothing breaks.
+PRON="$REPO/tools/pronunciations.json"
+if [ -n "$NORM" ]; then
+  python3 "$REPO/tools/read-aloud.py" "$POST" > "$TMP/prepped.md"
+  "$NORM" normalize --file "$TMP/prepped.md" --pronunciations "$PRON" --tables drop > "$TMP/clean.txt"
+else
+  echo "⚠ no normalize-capable stackvox found; using legacy cleaner" >&2
+  python3 "$REPO/tools/read-aloud.py" --legacy "$POST" > "$TMP/clean.txt"
+fi
 
 echo "→ post:  $(basename "$POST")"
 echo "→ voice: $VOICE @ ${SPEED}x  ($(wc -w < "$TMP/clean.txt" | tr -d ' ') words)"

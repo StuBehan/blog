@@ -42,22 +42,32 @@ Any post or page can carry a "Read aloud with StackVox" audio player. It renders
 automatically whenever a matching MP3 exists at `assets/audio/<slug>.mp3` — no
 file, no player.
 
-Generate one with [StackVox](https://github.com/StackOneHQ/stackvox) (bundled with
-the Stack Nudge app, or `pipx install stackvox`) plus `ffmpeg`:
+Generate one with [StackVox](https://github.com/StackOneHQ/stackvox) **0.7.0+**
+(bundled with the Stack Nudge app, or `pipx install stackvox`) plus `ffmpeg`:
 
 ```bash
 tools/generate-audio.sh _posts/2026-07-02-my-post.md   # or: tools/generate-audio.sh about.md
 STACKVOX_VOICE=bm_george tools/generate-audio.sh …     # override the default voice (af_aoede)
 ```
 
-`tools/read-aloud.py` turns the Markdown into speakable text first — expanding
-units and numbers (`£1.63` → "1 point 6 3 pounds", `25p` → "25 pence"), adding
-pauses, skipping tables, and applying a pronunciation library (e.g.
-`agy → antigravity`). Drop in an audio-only line with an HTML comment:
+StackVox's `normalize` command does the Markdown → speech transform — expanding
+units and numbers (`£1.63` → "1 point 6 3 pounds", `25p` → "25 pence"), shaping
+pauses, dropping tables, and applying the blog's pronunciation dictionary in
+`tools/pronunciations.json` (e.g. `agy → antigravity`, `Redis → Reddiss`). Add a
+term to that JSON whenever a word comes out wrong.
+
+`tools/read-aloud.py` handles the two things StackVox can't know about: it strips
+the front matter (emitting the title first, so a silent beat can be spliced after
+it) and expands the audio-only directive — a line that is spoken but never shown
+on the page:
 
 ```markdown
 <!-- say: a sentence that is spoken but never shown on the page -->
 ```
+
+If the StackVox on the machine predates `normalize` (< 0.7.0), the script falls
+back to `read-aloud.py --legacy`, a self-contained cleaner, so generation still
+works.
 
 The audio does **not** regenerate itself — re-run the script after editing a
 post's prose, or the narration drifts from the text.
@@ -71,7 +81,7 @@ post's prose, or the narration drifts from the text.
 | `_layouts/` | `post` / `page` / `default` layout overrides |
 | `_includes/` | Partials — sidebar, footer, the read-aloud player |
 | `assets/` | `main.scss` (dark purple skin) + `audio/` narration MP3s |
-| `tools/` | `generate-audio.sh` + `read-aloud.py` (narration pipeline) |
+| `tools/` | `generate-audio.sh`, `read-aloud.py`, `pronunciations.json` (narration pipeline) |
 | `index.md` | Home page (lists posts) |
 | `about.md` | About page |
 | `.github/workflows/pages.yml` | Build + deploy automation |
